@@ -3,10 +3,25 @@
     <meta content="utf-8" http-equiv="encoding">
 </head>
 <div id="mensa">
-    <select>
-        <option v-for="city in canteens">{{ city }}</option>
+    <select v-model="selectedCity">
+        <option disabled value="">Please select city</option>
+        <option v-for="city in cities">{{ city }}</option>
     </select>
-    <meallist v-bind:meals="meals"></meallist>
+    <select v-if="selectedCity" v-model="selectedCanteen">
+        <option disabled value="">Please select canteen</option>
+        <option v-for="canteen in selectedCanteens" v-bind:value="canteen.id">{{ canteen.name }}</option>
+    </select>
+    <p v-if="!selectedCity">No city selected</p>
+    <p v-if="!selectedCanteen">No canteen selected</p>
+    <ul>
+        <li v-for="date in allMeals" v-if="!date.closed">
+            {{ date.date }}
+            <ul>
+                <li v-for="meal in date.meals">{{ meal.name }}</li>
+            </ul>
+        </li>
+        
+    </ul>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
@@ -26,9 +41,11 @@
     const app = new Vue({
         el: '#mensa',
         data: {
-            meals: [],
+            selectedCanteen: '',
+            selectedCity: '',
             cities: [],
-            canteens: []
+            canteens: [],
+            allMeals: []
         },
         methods: {
 
@@ -45,16 +62,36 @@
                     fetch('https://openmensa.org/api/v2/canteens?page=' + i)
                         .then(resp => resp.json())
                         .then(page => this.canteens.push.apply(this.canteens, page))
+                        .then( () => this.fetchCities())
                 }
             },
 
             fetchCities: function() {
                 var cityList = []
-                cList.forEach(c => {
-                    console.log(c.city)
+                this.canteens.forEach(c => {
                     cityList.push(c.city);
                 });
-                
+                this.cities = new Set(cityList.sort());
+            },
+        },
+        computed: {
+            selectedCanteens: function(){
+                sCanteens = [];
+                this.allMeals = [];
+                this.selectedCanteen = '';
+                this.canteens.forEach(c => {
+                    if (c.city == this.selectedCity) {
+                        sCanteens.push(c);
+                    }
+                });
+                return sCanteens;
+            }
+        },
+        watch: {
+            selectedCanteen: function(){
+                fetch('https://openmensa.org/api/v2/canteens/' + this.selectedCanteen + '/meals/')
+                    .then(resp => resp.json())
+                    .then(response => this.allMeals = response);
             }
         },
         created () {
