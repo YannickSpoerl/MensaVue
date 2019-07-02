@@ -1,20 +1,64 @@
-<div id="canteen">
-    <ul>
-        <li v-for="meal in meals">
-            <p v-if="meal.notes === []">{{ meal.notes }}</p>{{ meal.name }}</li>
-    </ul>
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+</head>
+<div id="mensa">
+    <select>
+        <option v-for="city in canteens">{{ city }}</option>
+    </select>
+    <meallist v-bind:meals="meals"></meallist>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script>
+    Vue.component('meallist', {
+        props: ['meals'],
+        template: 
+        `<ul>
+            <li v-for="meal in meals">
+                {{ meal.name }}
+                <ul>
+                    <li v-for="note in meal.notes">{{ note }}</li>
+                </ul>
+            </li>
+        </ul>`,
+    })
     const app = new Vue({
-        el: '#canteen',
+        el: '#mensa',
         data: {
-            meals: []
+            meals: [],
+            cities: [],
+            canteens: []
+        },
+        methods: {
+
+            getCanteenPages: function(){
+                var req = new XMLHttpRequest();
+                req.open('GET', 'https://openmensa.org/api/v2/canteens/', false);
+                req.send(null);
+                return req.getResponseHeader('X-Total-Pages');
+            },
+
+            fetchAllCanteens: function(){
+                const pages = this.getCanteenPages();
+                for (let i = 1; i < pages; i++) {
+                    fetch('https://openmensa.org/api/v2/canteens?page=' + i)
+                        .then(resp => resp.json())
+                        .then(page => this.canteens.push.apply(this.canteens, page))
+                }
+            },
+
+            fetchCities: function() {
+                var cityList = []
+                cList.forEach(c => {
+                    console.log(c.city)
+                    cityList.push(c.city);
+                });
+                
+            }
         },
         created () {
-            fetch('https://openmensa.org/api/v2/canteens/79/days/2019-07-01/meals')
-            .then(resp => resp.json()).then(m => this.meals=m)
+            this.fetchAllCanteens();
         }
     })
 </script>
