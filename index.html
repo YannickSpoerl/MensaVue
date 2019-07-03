@@ -1,30 +1,56 @@
+<!DOCTYPE html>
+<html>
 <head>
+    <!-- Vuetify-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="utf-8" http-equiv="encoding">
 </head>
-<div id="mensa">
-    <select v-model="selectedCity">
-        <option disabled value="">Please select city</option>
-        <option v-for="city in cities">{{ city }}</option>
-    </select>
-    <select v-if="selectedCity" v-model="selectedCanteen">
-        <option disabled value="">Please select canteen</option>
-        <option v-for="canteen in selectedCanteens" v-bind:value="canteen.id">{{ canteen.name }}</option>
-    </select>
-    <p v-if="!selectedCity">No city selected</p>
-    <p v-if="!selectedCanteen">No canteen selected</p>
-    <ul>
-        <li v-for="date in allMeals" v-if="!date.closed">
-            {{ date.date }}
-            <ul>
-                <li v-for="meal in date.meals">{{ meal.name }}</li>
-            </ul>
-        </li>
-        
-    </ul>
+<body>
+<div id="mensavue">
+    <v-app>
+        <div>
+        <v-autocomplete 
+            v-model="selectedCity" 
+            :items="cities"
+            label="City"
+            placeholder="Enter City" 
+            prepend-icon="location_city">
+        </v-autocomplete>
+        </div>
+        <div>
+        <v-select 
+            v-if="selectedCity"
+            item-text="name"
+            item-value="id"
+            :items="selectedCanteens"
+            v-model="selectedCanteen"
+            prepend-icon="restaurant"
+            placeholder="Choose Canteen"
+            label="Canteen">
+        </v-select>
+        </div>
+        <p v-if="!selectedCity">No city selected</p>
+        <p v-if="!selectedCanteen">No canteen selected</p>
+        <ul>
+            <li v-for="date in allMeals" v-if="!date.closed">
+                {{ date.date }}
+                <ul>
+                    <li v-for="meal in date.meals">{{ meal.name }}</li>
+                </ul>
+            </li>
+            
+        </ul>
+    </v-app>
 </div>
+<!--Vuetify-->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
 <script>
     Vue.component('meallist', {
         props: ['meals'],
@@ -39,7 +65,7 @@
         </ul>`,
     })
     const app = new Vue({
-        el: '#mensa',
+        el: '#mensavue',
         data: {
             selectedCanteen: '',
             selectedCity: '',
@@ -69,10 +95,12 @@
             fetchCities: function() {
                 var cityList = []
                 this.canteens.forEach(c => {
-                    cityList.push(c.city);
+                    if(!cityList.includes(c.city)){
+                        cityList.push(c.city);
+                    }
                 });
-                this.cities = new Set(cityList.sort());
-            },
+                this.cities = cityList.sort();
+            }
         },
         computed: {
             selectedCanteens: function(){
@@ -99,3 +127,5 @@
         }
     })
 </script>
+</body>
+</html>
