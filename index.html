@@ -12,42 +12,71 @@
 <body>
 <div id="mensavue">
     <v-app dark>
-        <div v-if="loaded">
-            <v-toolbar>
-                <v-toolbar-side-icon v-on:click="expandMenu()"></v-toolbar-side-icon>
-                <v-toolbar-title>MensaVUE</v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-autocomplete 
-                    v-model="selectedCity" 
-                    :items="cities"
-                    label="City"
-                    flat
-                    class="mx-3"
-                    placeholder="Where are you?" 
-                    prepend-icon="location_city">
-                </v-autocomplete>
-                <v-spacer></v-spacer>
-                <v-select 
-                    item-text="name"
-                    item-value="id"
-                    :items="selectedCanteens"
-                    v-model="selectedCanteen"
-                    prepend-icon="restaurant"
-                    no-data-text="Select a city first"
-                    placeholder="Choose your canteen"
-                    label="Canteen">
-                </v-select>
-            </v-toolbar>
-            <v-navigation-drawer v-if="menuExpanded">
-                <ul>
-                    <li v-for="filter in filters">{{ filter }}</li>
-                </ul>
-            </v-navigation-drawer>
-                    <v-tabs fixed-tabs v-model="selectedDate" mandatory>
-                        <v-tab v-for="date in allMeals" :key="date.date"> {{ getDateTabs(date.date) }}</v-tab>
-                    </v-tabs>
-            <v-container v-if="!loaded" align-center justify-center row fill-height><v-progress-circular :size="150" :width="7" indeterminate></v-progress-circular></v-container>
-        </div>
+        <v-layout row wrap v-if="loaded">
+            <v-flex xs12>
+                <v-toolbar>
+                    <v-toolbar-side-icon v-on:click="expandMenu()"></v-toolbar-side-icon>
+                    <v-toolbar-title>MensaVUE</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-autocomplete v-model="selectedCity" :items="cities" label="City" flat class="mx-3" placeholder="Where are you?"
+                        prepend-icon="location_city">
+                    </v-autocomplete>
+                    <v-spacer></v-spacer>
+                    <v-select item-text="name" item-value="id" :items="selectedCanteens" v-model="selectedCanteen"
+                        prepend-icon="restaurant" no-data-text="Select a city first" placeholder="Choose your canteen" label="Canteen">
+                    </v-select>
+                </v-toolbar>
+            </v-flex>
+            <v-flex shrink>
+                <v-navigation-drawer v-if="menuExpanded">
+                    <v-list subheader></v-list>
+                    <v-subheader>Filters</v-subheader>
+                    <v-list-tile v-for="filter in filters" v-on:click="">
+                        <v-list-tile-action>
+                            <v-checkbox></v-checkbox>
+                        </v-list-tile-action>
+                        <v-list-tile-content v-on:click="">
+                            <v-list-tile-title>{{ filter }}</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                    </v-list>
+                    <v-divider></v-divider>
+                </v-navigation-drawer>
+            </v-flex>
+            <v-flex grow v-if="selectedCanteen">
+                <v-card>
+                    <v-card-title primary-title>
+                        <div>
+                            <div class="headline">{{ getCanteenById(selectedCanteen).name }}</div>
+                            <span class="grey--text">{{ getCanteenById(selectedCanteen).address }}</span>
+                        </div>
+                    </v-card-title>
+                </v-card>
+                <v-tabs v-if="selectedCanteen" fixed-tabs v-model="selectedDate" mandatory>
+                    <v-tab v-for="date in allMeals" :key="date.date"> {{ getDateTabs(date.date) }}</v-tab>
+                </v-tabs>
+                <v-card>
+                    <div class="text-xs-center">
+                        <v-chip>Example Chip</v-chip>
+                    </div></v-card>
+                <v-card v-if="allMeals">
+                    <v-expansion-panel expand>
+                        <v-expansion-panel-content v-for="meal in allMeals[selectedDate].meals">
+                            <template v-slot:header>
+                                <div>{{ meal.name }}</div>
+                            </template>
+                            <v-card>
+                                <v-card-text>undefined</v-card-text>
+                            </v-card>
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+                </v-card>
+            </v-flex>
+        </v-layout>
+        <v-footer>FOOTER</v-footer>
+        <v-container v-if="!loaded" align-center justify-center row fill-height>
+            <v-progress-circular :size="150" :width="7" indeterminate></v-progress-circular>
+        </v-container>
     </v-app>
 </div>
 <!--Vuetify-->
@@ -56,18 +85,6 @@
 
 <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
 <script>
-    Vue.component('meallist', {
-        props: ['meals'],
-        template: 
-        `<ul>
-            <li v-for="meal in meals">
-                {{ meal.name }}
-                <ul>
-                    <li v-for="note in meal.notes">{{ note }}</li>
-                </ul>
-            </li>
-        </ul>`,
-    })
     const app = new Vue({
         el: '#mensavue',
         data: {
@@ -78,7 +95,7 @@
             cities: [],
             canteens: [],
             allMeals: [],
-            menuExpanded: true
+            menuExpanded: false
         },
         methods: {
 
@@ -111,6 +128,16 @@
                 return newDateList;
             },
 
+            getCanteenById: function(id){
+                let el;
+                this.selectedCanteens.forEach(element => {
+                    if(element.id == id){
+                        el = element;
+                    }
+                });
+                return el;
+            },
+
             fetchAllCanteens: function(){
                 const pages = this.getCanteenPages();
                 for (let i = 1; i < pages; i++) {
@@ -130,23 +157,49 @@
                     }
                 });
                 this.cities = cityList.sort();
+            },
+
+            resetValues: function() {
+                this.allMeals = [];
+                this.selectedCanteen = undefined;
+                this.selectedDate = 0;
+                this.selectedCanteen = '';
+            },
+
+            calculateFilters: function(){
+                
             }
         },
         computed: {
             selectedCanteens: function(){
                 sCanteens = [];
-                this.allMeals = [];
-                this.selectedCanteen = '';
+                this.resetValues();
                 this.canteens.forEach(c => {
                     if (c.city == this.selectedCity) {
                         sCanteens.push(c);
                     }
                 });
                 return sCanteens;
+            },
+
+            filters: function () {
+                if(this.allMeals.length == 0){
+                    return [];
+                }
+                newFilters = []
+                this.allMeals[this.selectedDate].meals.forEach(element => {
+                    element.notes.forEach(element2 => {
+                        if (!newFilters.includes(element2)) {
+                            newFilters.push(element2);
+                        }
+                    });
+                });
+                return newFilters;
             }
         },
         watch: {
             selectedCanteen: function(){
+                this.selectedDate = 0;
                 fetch('https://openmensa.org/api/v2/canteens/' + this.selectedCanteen + '/meals/')
                     .then(resp => resp.json())
                     .then(response => this.allMeals = this.getOpenDates(response));
