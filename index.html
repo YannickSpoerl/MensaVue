@@ -29,17 +29,7 @@
             </v-flex>
             <v-flex shrink>
                 <v-navigation-drawer v-if="menuExpanded">
-                    <v-list subheader></v-list>
-                    <v-subheader>Filters</v-subheader>
-                    <v-list-tile v-for="filter in filters" v-on:click="">
-                        <v-list-tile-action>
-                            <v-checkbox></v-checkbox>
-                        </v-list-tile-action>
-                        <v-list-tile-content v-on:click="">
-                            <v-list-tile-title>{{ filter }}</v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                    </v-list>
+                    <v-checkbox v-for="(filter, index) in filters" v-model="selectedFilters[index]" :label="filters[index]"></v-checkbox>
                     <v-divider></v-divider>
                 </v-navigation-drawer>
             </v-flex>
@@ -53,11 +43,11 @@
                     </v-card-title>
                 </v-card>
                 <v-tabs v-if="selectedCanteen" fixed-tabs v-model="selectedDate" mandatory>
-                    <v-tab v-for="date in allMeals" :key="date.date"> {{ getDateTabs(date.date) }}</v-tab>
+                    <v-tab v-for="date in allMeals" :key="date.date"> {{ date.date }}</v-tab>
                 </v-tabs>
                 <v-card>
                     <div class="text-xs-center">
-                        <v-chip>Example Chip</v-chip>
+                        <v-chip v-for="selectedFilter in selectedFilters">{{ selectedFilter }}</v-chip>
                     </div></v-card>
                 <v-card v-if="allMeals">
                     <v-expansion-panel expand>
@@ -95,14 +85,10 @@
             cities: [],
             canteens: [],
             allMeals: [],
-            menuExpanded: false
+            menuExpanded: false,
+            selectedFilters: undefined
         },
         methods: {
-
-            getDateTabs: function(d){
-                date = new Date(d);
-                return date.toLocaleDateString('de-DE', {year: 'numeric', month: 'long', day: 'numeric' });
-            },
 
             expandMenu: function(){
                 if(this.menuExpanded){
@@ -166,9 +152,6 @@
                 this.selectedCanteen = '';
             },
 
-            calculateFilters: function(){
-                
-            }
         },
         computed: {
             selectedCanteens: function(){
@@ -183,6 +166,7 @@
             },
 
             filters: function () {
+                this.selectedFilters = [];
                 if(this.allMeals.length == 0){
                     return [];
                 }
@@ -190,6 +174,7 @@
                 this.allMeals[this.selectedDate].meals.forEach(element => {
                     element.notes.forEach(element2 => {
                         if (!newFilters.includes(element2)) {
+                            this.selectedFilters.push(false);
                             newFilters.push(element2);
                         }
                     });
@@ -203,7 +188,7 @@
                 fetch('https://openmensa.org/api/v2/canteens/' + this.selectedCanteen + '/meals/')
                     .then(resp => resp.json())
                     .then(response => this.allMeals = this.getOpenDates(response));
-            }
+            },
         },
         created () {
             this.fetchAllCanteens();
