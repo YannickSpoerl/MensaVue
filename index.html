@@ -16,7 +16,12 @@
             <v-flex xs12>
                 <v-toolbar>
                     <v-toolbar-side-icon v-on:click="expandMenu()"></v-toolbar-side-icon>
-                    <v-toolbar-title>mensaVue</v-toolbar-title>
+                    <v-badge color="teal">
+                        <template v-slot:badge>
+                            <span>beta</span>
+                        </template>
+                        <v-toolbar-title>mensaVue</v-toolbar-title>
+                    </v-badge>
                     <v-spacer></v-spacer>
                     <v-autocomplete v-model="selectedCity" :items="cities" label="City" flat class="mx-3" placeholder="Where are you?"
                         prepend-icon="location_city">
