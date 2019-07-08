@@ -47,7 +47,7 @@
                 </v-tabs>
                 <v-card>
                     <div class="text-xs-center">
-                        <v-chip v-for="(selectedFilter,index) in selectedFilters" v-if="selectedFilter">{{ filters[index] }}</v-chip>
+                        <v-chip v-for="(selectedFilter,index) in selectedFilters" v-if="selectedFilter" v-bind:key="filters[index]">{{ filters[index] }}</v-chip>
                     </div>
                 </v-card>
                 <v-container v-if="!filteredMeals" align-center justify-center row fill-height>
@@ -55,7 +55,7 @@
                 </v-container>
                 <v-card v-if="filteredMeals">
                     <v-expansion-panel expand>
-                        <v-expansion-panel-content v-for="meal in filteredMeals">
+                        <v-expansion-panel-content v-for="meal in filteredMeals" v-bind:key="meal.id">
                             <template v-slot:header>
                                 <div><v-icon>fastfood</v-icon>&nbsp;{{ meal.name }}</div>
                             </template>
