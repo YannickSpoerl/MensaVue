@@ -189,7 +189,18 @@
                 if(!this.allMeals[this.selectedDate]){
                     return undefined;
                 }
-                newFilteredMeals = this.allMeals[this.selectedDate].meals;
+                let newFilteredMeals = [];
+                let activatedFilters = [];
+                for(let i=0; i<this.filters.length;i++){
+                    if(this.selectedFilters[i]){
+                        activatedFilters.push(this.filters[i]);
+                    }
+                }
+                this.allMeals[this.selectedDate].meals.forEach(meal => {
+                    if(activatedFilters.every(filter => meal.notes.includes(filter))){
+                        newFilteredMeals.push(meal)
+                    }
+                });
                 return newFilteredMeals;
             }
         },
