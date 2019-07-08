@@ -16,7 +16,7 @@
             <v-flex xs12>
                 <v-toolbar>
                     <v-toolbar-side-icon v-on:click="expandMenu()"></v-toolbar-side-icon>
-                    <v-toolbar-title>MensaVUE</v-toolbar-title>
+                    <v-toolbar-title>mensaVue</v-toolbar-title>
                     <v-spacer></v-spacer>
                     <v-autocomplete v-model="selectedCity" :items="cities" label="City" flat class="mx-3" placeholder="Where are you?"
                         prepend-icon="location_city">
@@ -43,7 +43,7 @@
                     </v-card-title>
                 </v-card>
                 <v-tabs v-if="selectedCanteen" fixed-tabs v-model="selectedDate" mandatory>
-                    <v-tab v-for="date in allMeals" :key="date.date"> {{ date.date }}</v-tab>
+                    <v-tab v-for="date in allMeals" :key="date.date"><v-icon>calendar_today</v-icon>&nbsp;{{ date.date }}</v-tab>
                 </v-tabs>
                 <v-card>
                     <div class="text-xs-center">
@@ -57,7 +57,7 @@
                     <v-expansion-panel expand>
                         <v-expansion-panel-content v-for="meal in filteredMeals">
                             <template v-slot:header>
-                                <div>{{ meal.name }}</div>
+                                <div><v-icon>fastfood</v-icon>&nbsp;{{ meal.name }}</div>
                             </template>
                             <v-card>
                                 <v-card-text>undefined</v-card-text>
@@ -83,8 +83,8 @@
         el: '#mensavue',
         data: {
             loaded: false,
-            selectedCanteen: '',
-            selectedCity: '',
+            selectedCanteen: undefined,
+            selectedCity: undefined,
             selectedDate: undefined,
             cities: [],
             canteens: [],
@@ -190,21 +190,14 @@
                     return undefined;
                 }
                 newFilteredMeals = this.allMeals[this.selectedDate].meals;
-                for(let i=0; i++; i<newFilteredMeals.length){
-                    for(let j=0; j++; j<this.filters.length){
-                        console.log('checking ' + newFilteredMeals[i].name + ' for ' + this.filters[j]);
-                        if(this.selectedFilters[j]){
-                            if(!newFilteredMeals[i].notes.includes(this.filters[j])){
-                                newFilteredMeals[i] = undefined;
-                            }
-                        }
-                    }
-                }
                 return newFilteredMeals;
             }
         },
         watch: {
             selectedCanteen: function(){
+                if(!this.selectedCanteen){
+                    return;
+                }
                 this.selectedDate = 0;
                 fetch('https://openmensa.org/api/v2/canteens/' + this.selectedCanteen + '/meals/')
                     .then(resp => resp.json())
