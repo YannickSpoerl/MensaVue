@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- Vuetify-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">    <!-- Vuetify-->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
@@ -30,7 +30,6 @@
             <v-flex shrink>
                 <v-navigation-drawer v-if="menuExpanded">
                     <v-checkbox v-for="(filter, index) in filters" v-model="selectedFilters[index]" :key="filters[index]" :label="filters[index]"></v-checkbox>
-                    <v-divider></v-divider>
                 </v-navigation-drawer>
             </v-flex>
             <v-flex grow v-if="selectedCanteen">
@@ -70,7 +69,20 @@
         <v-container v-if="!loaded" align-center justify-center row fill-height>
             <v-progress-circular :size="150" :width="7" indeterminate></v-progress-circular>
         </v-container>
-        <v-footer>FOOTER</v-footer>
+        <template>
+            <v-footer dark height="auto">
+                <v-card class="flex" flat tile>
+                    <v-card-title style="background-color: #009587">
+                        <v-spacer></v-spacer>
+                        <v-btn v-for="icon in icons" :key="icon.icon" class="mx-3" dark icon v-bind:href="icon.link" target="_blank">
+                            <v-icon size="24px">{{ icon.icon }}</v-icon>
+                        </v-btn>
+                        2019 &nbsp;<strong>Yannick Spoerl</strong>
+                        <v-spacer></v-spacer>
+                    </v-card-title>
+                </v-card>
+            </v-footer>
+        </template>
     </v-app>
 </div>
 <!--Vuetify-->
@@ -90,7 +102,13 @@
             canteens: [],
             allMeals: [],
             menuExpanded: false,
-            selectedFilters: []
+            selectedFilters: [],
+            icons: [
+                { icon: 'fab fa-vuejs', link: "https://vuejs.org/"},
+                { icon: 'fas fa-user', link: "http://yannickspoerl.me" },
+                { icon: 'fab fa-github', link: "https://github.com/YannickSpoerl" },
+                { icon: 'fab fa-spotify', link: "https://github.com/YannickSpoerl" }
+            ]
         },
         methods: {
 
@@ -218,7 +236,7 @@
         created () {
             this.fetchAllCanteens();
         }
-    })
+    });
 </script>
 </body>
 </html>
