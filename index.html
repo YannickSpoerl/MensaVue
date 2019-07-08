@@ -53,8 +53,22 @@
                     <v-progress-circular :size="150" :width="7" indeterminate></v-progress-circular>
                 </v-container>
                 <v-card v-if="filteredMeals">
-                    <v-expansion-panel expand>
-                        <v-expansion-panel-content v-for="meal in filteredMeals" v-bind:key="meal.id">
+                    <v-list two-line subheader>
+                        <div v-for="category in filteredMeals">
+                            <v-subheader inset>{{ category.name }}</v-subheader>
+                            <v-list-tile v-for="meal in category.meals" :key="meal.name">
+                        
+                                <v-list-tile-content>
+                                    <v-list-tile-title>{{ meal.name }}</v-list-tile-title>
+                                    <v-list-tile-sub-title>undefined</v-list-tile-sub-title>
+                                </v-list-tile-content>
+                            </v-list-tile>
+                            <v-divider inset></v-divider>
+                            </v-list-tile>
+                        </div>
+                    </v-list>
+                    <!--<v-expansion-panel expand>
+                        <v-expansion-panel-content v-for="meal in filteredMeals" v-bind:key="meal.name">
                             <template v-slot:header>
                                 <div><v-icon>fastfood</v-icon>&nbsp;{{ meal.name }}</div>
                             </template>
@@ -62,7 +76,7 @@
                                 <v-card-text>undefined</v-card-text>
                             </v-card>
                         </v-expansion-panel-content>
-                    </v-expansion-panel>
+                    </v-expansion-panel>-->
                 </v-card>
             </v-flex>
         </v-layout>
@@ -174,6 +188,27 @@
                 this.selectedCanteen = '';
             },
 
+            createMealCategorys(meals){
+                categories = [];
+                meals.forEach(meal => {
+                    var existent = false;
+                    categories.forEach(category => {
+                        if (category.name == meal.category) {
+                            existent = true;
+                            category.meals.push(meal);
+                        } 
+                    });
+                    if(!existent){
+                        var newCategory = {};
+                        newCategory.name = meal.category;
+                        newCategory.meals = [];
+                        newCategory.meals.push(meal);
+                        categories.push(newCategory);
+                    }
+                });
+                return categories;
+            }
+
         },
         computed: {
             selectedCanteens: function(){
@@ -219,7 +254,7 @@
                         newFilteredMeals.push(meal)
                     }
                 });
-                return newFilteredMeals;
+                return this.createMealCategorys(newFilteredMeals);
             }
         },
         watch: {
