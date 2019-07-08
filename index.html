@@ -53,14 +53,16 @@
                     <v-progress-circular :size="150" :width="7" indeterminate></v-progress-circular>
                 </v-container>
                 <v-card v-if="filteredMeals">
-                    <v-list two-line subheader>
+                    <v-list three-line subheader>
                         <div v-for="category in filteredMeals">
                             <v-subheader inset>{{ category.name }}</v-subheader>
                             <v-list-tile v-for="meal in category.meals" :key="meal.name">
-                        
                                 <v-list-tile-content>
                                     <v-list-tile-title>{{ meal.name }}</v-list-tile-title>
-                                    <v-list-tile-sub-title>undefined</v-list-tile-sub-title>
+                                    <v-list-tile-sub-title>{{ formatPrices(meal.prices) }}</v-list-tile-sub-title>
+                                    <v-list-tile-sub-title>
+                                            <v-chip v-for="note in meal.notes" :key="note">{{ note }}</v-chip>
+                                    </v-list-tile-sub-title>
                                 </v-list-tile-content>
                             </v-list-tile>
                             <v-divider inset></v-divider>
@@ -207,6 +209,15 @@
                     }
                 });
                 return categories;
+            },
+
+            formatPrices: function(prices){
+                var priceString = '';
+                priceString = prices.students ? priceString + 'Students: ' + prices.students + '   ': priceString;
+                priceString = prices.employees ? priceString + 'Employees: ' + prices.employees + '   ': priceString;
+                priceString = prices.pupils ? priceString + 'Pupils: ' + prices.pupils + '   ' : priceString;
+                priceString = prices.others ? priceString + 'Others: ' + prices.others : priceString;
+                return priceString;
             }
 
         },
