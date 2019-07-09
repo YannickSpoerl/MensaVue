@@ -11,7 +11,7 @@
 </head>
 <body>
 <div id="mensavue">
-    <v-app dark>
+    <v-app>
         <v-navigation-drawer v-if="menuExpanded" fixed app>
             <v-container fill-height>
                 <p v-if="filters.length==0">Select a city and canteen</p>
@@ -27,7 +27,7 @@
                 </v-list>
             </v-container>
         </v-navigation-drawer>
-        <v-toolbar fixed app clipped-left>
+        <v-toolbar class="hidden-xs-and-down" prominent fixed app clipped-left>
             <v-toolbar-side-icon v-on:click="expandMenu()"></v-toolbar-side-icon>
             <v-spacer></v-spacer>
             <v-badge color="teal">
@@ -41,10 +41,28 @@
                 prepend-icon="location_city">
             </v-autocomplete>
             <v-spacer></v-spacer>
-            <v-select item-text="name" item-value="id" :items="selectedCanteens" v-model="selectedCanteen"
-                prepend-icon="restaurant" no-data-text="Select a city first" placeholder="Choose your canteen" label="Canteen">
+            <v-select item-text="name" item-value="id" :items="selectedCanteens" v-model="selectedCanteen" prepend-icon="restaurant"
+                no-data-text="Select a city first" placeholder="Choose your canteen" label="Canteen">
             </v-select>
             <v-spacer></v-spacer>
+        </v-toolbar>
+        <v-toolbar extended class="hidden-sm-and-up" fixed app clipped-left>
+            <v-toolbar-side-icon v-on:click="expandMenu()"></v-toolbar-side-icon>
+            <v-spacer></v-spacer>
+            <v-badge color="teal">
+                <template v-slot:badge>
+                    <span>beta</span>
+                </template>
+                <v-toolbar-title>mensaVueM</v-toolbar-title>
+            </v-badge>
+            <v-spacer></v-spacer>
+            <v-autocomplete slot="extension" v-model="selectedCity" :items="cities" label="City" flat class="mx-3" placeholder="Where are you?"
+                prepend-icon="location_city">
+            </v-autocomplete>
+            <v-spacer slot="extension"></v-spacer>
+            <v-select slot="extension" item-text="name" item-value="id" :items="selectedCanteens" v-model="selectedCanteen"
+                prepend-icon="restaurant" no-data-text="Select a city first" placeholder="Choose your canteen" label="Canteen">
+            </v-select>
         </v-toolbar>
         <v-content>
             <v-container v-if="!loaded" align-center justify-center row fill-height>
