@@ -120,8 +120,8 @@
             </v-card>
         </v-container>
         <v-footer dark height="auto">
-            <v-card class="flex" flat tile>
-                <v-card-title style="background-color: #009587">
+            <v-card class="flex primary" flat tile>
+                <v-card-title>
                     <v-spacer></v-spacer>
                     <v-btn v-for="icon in icons" :key="icon.icon" class="mx-3" dark icon v-bind:href="icon.link"
                         target="_blank">
@@ -261,7 +261,7 @@
         },
         computed: {
             onMobileDevice: function(){
-                if(this.$vuetify.breakpoint.xs){
+                if(this.$vuetify.breakpoint.mdAndDown){
                     return true;
                 }
                 return false;
@@ -325,6 +325,7 @@
             }
         },
         created () {
+            this.$vuetify.theme.primary = '#009587'
             this.fetchAllCanteens();
         }
     });
