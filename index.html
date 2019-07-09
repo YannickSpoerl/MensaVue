@@ -53,7 +53,7 @@
                 <template v-slot:badge>
                     <span>beta</span>
                 </template>
-                <v-toolbar-title>mensaVueM</v-toolbar-title>
+                <v-toolbar-title>mensaVueMobile</v-toolbar-title>
             </v-badge>
             <v-spacer></v-spacer>
             <v-autocomplete slot="extension" v-model="selectedCity" :items="cities" label="City" flat class="mx-3" placeholder="Where are you?"
@@ -64,7 +64,7 @@
                 prepend-icon="restaurant" no-data-text="Select a city first" placeholder="Choose your canteen" label="Canteen">
             </v-select>
         </v-toolbar>
-        <v-content>
+        <v-content v-if="!onMobileDevice || (onMobileDevice && !menuExpanded)">
             <v-container v-if="!loaded" align-center justify-center row fill-height>
                 <v-progress-circular :size="150" :width="7" indeterminate></v-progress-circular>
             </v-container>
@@ -113,6 +113,22 @@
                 </v-flex>
             </v-layout>
         </v-content>
+        <v-container v-if="onMobileDevice && menuExpanded" fill-height>
+            <v-card class="pa-3">
+            <p v-if="filters.length==0">Select a city and canteen</p>
+            <v-list>
+                <div v-if="filters.length!=0">
+                    <v-subheader>Filters</v-subheader>
+                    <v-list-tile v-for="(filter, index) in filters" :key="filters[index]">
+                        <v-list-tile-action>
+                            <v-checkbox v-model="selectedFilters[index]" :key="filters[index]" :label="filters[index]">
+                            </v-checkbox>
+                        </v-list-tile-action>
+                    </v-list-tile>
+                </div>
+            </v-list>
+            </v-card>
+        </v-container>
         <v-footer dark height="auto">
             <v-card class="flex" flat tile>
                 <v-card-title style="background-color: #009587">
@@ -153,19 +169,6 @@
             ]
         },
         methods: {
-
-            toggle: function(value){
-                console.log(this.selectedFilters);
-                if(value == undefined){
-                    return true;
-                }
-                if(value){
-                    return false;
-                }
-                else {
-                    return true;
-                }
-            },
 
             formatDate: function(date){
                 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -267,6 +270,13 @@
 
         },
         computed: {
+            onMobileDevice: function(){
+                if(this.$vuetify.breakpoint.xs){
+                    return true;
+                }
+                return false;
+            },
+
             selectedCanteens: function(){
                 sCanteens = [];
                 this.resetValues();
