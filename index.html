@@ -52,7 +52,7 @@
             </v-container>
             <v-layout row wrap v-if="loaded">
                 <v-flex grow v-if="selectedCanteen">
-                    <v-card ma-3>
+                    <v-card class="ma-3">
                         <v-card-title primary-title>
                             <div>
                                 <div class="headline">{{ getCanteenById(selectedCanteen).name }}</div>
@@ -60,12 +60,12 @@
                             </div>
                         </v-card-title>
                     </v-card>
-                    <v-tabs v-if="selectedCanteen" fixed-tabs v-model="selectedDate" mandatory>
+                    <v-tabs class="ma-3" v-if="selectedCanteen" fixed-tabs v-model="selectedDate" mandatory>
                         <v-tab v-for="date in allMeals" :key="date.date">
                             <v-icon>calendar_today</v-icon>&nbsp;{{ formatDate(date.date) }}
                         </v-tab>
                     </v-tabs>
-                    <v-card>
+                    <v-card class="ma-3">
                         <div class="text-xs-center">
                             <v-chip v-for="(selectedFilter,index) in selectedFilters" v-if="selectedFilter"
                                 v-bind:key="filters[index]">{{ filters[index] }}</v-chip>
@@ -74,11 +74,11 @@
                     <v-container v-if="!filteredMeals" align-center justify-center row fill-height>
                         <v-progress-circular :size="150" :width="7" indeterminate></v-progress-circular>
                     </v-container>
-                    <v-card v-if="filteredMeals">
+                    <v-card class="ma-3" v-if="filteredMeals">
                         <v-list three-line subheader>
                             <div v-for="category in filteredMeals">
                                 <v-subheader inset>{{ category.name }}</v-subheader>
-                                <v-list-tile v-for="meal in category.meals" :key="meal.name">
+                                <v-list-tile v-for="meal in category.meals" :key="meal.name" @click="">
                                     <v-list-tile-content>
                                         <v-list-tile-title>{{ meal.name }}</v-list-tile-title>
                                         <v-list-tile-sub-title>{{ formatPrices(meal.prices) }}</v-list-tile-sub-title>
