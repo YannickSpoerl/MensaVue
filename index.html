@@ -27,7 +27,7 @@
                 </v-list>
             </v-container>
         </v-navigation-drawer>
-        <v-toolbar class="hidden-xs-and-down" prominent fixed app clipped-left>
+        <v-toolbar dark color="primary" class="hidden-xs-and-down" prominent fixed app clipped-left>
             <v-toolbar-side-icon v-on:click="expandMenu()"></v-toolbar-side-icon>
             <v-spacer></v-spacer>
             <v-toolbar-title>mensaVue</v-toolbar-title>
@@ -41,7 +41,7 @@
             </v-select>
             <v-spacer></v-spacer>
         </v-toolbar>
-        <v-toolbar extended class="hidden-sm-and-up" fixed app clipped-left>
+        <v-toolbar dark color="primary" extended class="hidden-sm-and-up" fixed app clipped-left>
             <v-toolbar-side-icon v-on:click="expandMenu()"></v-toolbar-side-icon>
             <v-spacer></v-spacer>
             <v-toolbar-title>mensaVue<sup>mobile</sup></v-toolbar-title>
@@ -68,7 +68,7 @@
                             </div>
                         </v-card-title>
                     </v-card>
-                    <v-tabs class="ma-3" v-if="selectedCanteen" fixed-tabs v-model="selectedDate" mandatory>
+                    <v-tabs dark color="primary" class="ma-3" v-if="selectedCanteen" fixed-tabs v-model="selectedDate" mandatory>
                         <v-tab v-for="date in allMeals" :key="date.date">
                             <v-icon>calendar_today</v-icon>&nbsp;{{ formatDate(date.date) }}
                         </v-tab>
@@ -85,13 +85,13 @@
                     <v-card class="ma-3" v-if="filteredMeals">
                         <v-list three-line subheader>
                             <div v-for="category in filteredMeals">
-                                <v-subheader inset>{{ category.name }}</v-subheader>
+                                <v-subheader>{{ category.name }}</v-subheader>
                                 <v-list-tile v-for="meal in category.meals" :key="meal.name" @click="">
                                     <v-list-tile-content>
                                         <v-list-tile-title>{{ meal.name }}</v-list-tile-title>
                                         <v-list-tile-sub-title>{{ formatPrices(meal.prices) }}</v-list-tile-sub-title>
-                                        <v-list-tile-sub-title>
-                                            <v-chip v-for="note in meal.notes" :key="note">{{ note }}</v-chip>
+                                        <v-list-tile-sub-title two-line>
+                                            <v-chip text-color="white" color="primary" v-for="note in meal.notes" :key="note">{{ note }}</v-chip>
                                         </v-list-tile-sub-title>
                                     </v-list-tile-content>
                                 </v-list-tile>
@@ -111,7 +111,7 @@
                     <v-subheader>Filters</v-subheader>
                     <v-list-tile v-for="(filter, index) in filters" :key="filters[index]">
                         <v-list-tile-action>
-                            <v-checkbox v-model="selectedFilters[index]" :key="filters[index]" :label="filters[index]">
+                            <v-checkbox color="primary" v-model="selectedFilters[index]" :key="filters[index]" :label="filters[index]">
                             </v-checkbox>
                         </v-list-tile-action>
                     </v-list-tile>
