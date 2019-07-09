@@ -49,6 +49,9 @@
             <v-spacer></v-spacer>
         </v-toolbar>
         <v-content>
+            <v-container v-if="!loaded" align-center justify-center row fill-height>
+                <v-progress-circular :size="150" :width="7" indeterminate></v-progress-circular>
+            </v-container>
             <v-layout row wrap v-if="loaded">
                 <v-flex grow v-if="selectedCanteen">
                     <v-card>
@@ -107,9 +110,6 @@
                 </v-card-title>
             </v-card>
         </v-footer>
-        <v-container v-if="!loaded" align-center justify-center row fill-height>
-            <v-progress-circular :size="150" :width="7" indeterminate></v-progress-circular>
-        </v-container>
     </v-app>
 </div>
 <!--Vuetify-->
