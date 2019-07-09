@@ -13,10 +13,21 @@
 <div id="mensavue">
     <v-app dark>
         <v-navigation-drawer v-if="menuExpanded" fixed app>
-            <v-container v-if="filters.length==0"  fill-height>
-                <p class="text-xs-center">Select a city and canteen</p>
+            <v-container fill-height>
+                <p v-if="filters.length==0">Select a city and canteen</p>
+                <v-list>
+                    <div v-if="filters.length!=0">
+                        <v-subheader>Filters</v-subheader>
+                        <v-list-tile v-for="(filter, index) in filters">
+                            <v-list-tile-action>
+                                <v-checkbox v-model="selectedFilters[index]" :key="filters[index]" :label="filters[index]"></v-checkbox>
+                            </v-list-tile-action>
+                            <v-list-tile-content>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                    </div>
+                </v-list>
             </v-container>
-            <v-checkbox v-for="(filter, index) in filters" v-model="selectedFilters[index]" :key="filters[index]" :label="filters[index]"></v-checkbox>
         </v-navigation-drawer>
         <v-toolbar fixed app clipped-left>
             <v-toolbar-side-icon v-on:click="expandMenu()"></v-toolbar-side-icon>
@@ -128,10 +139,23 @@
         },
         methods: {
 
+            toggle: function(value){
+                console.log(this.selectedFilters);
+                if(value == undefined){
+                    return true;
+                }
+                if(value){
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            },
+
             formatDate: function(date){
                 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
                 jsDate = new Date(date);
-                return jsDate.getDate() + ' ' + months[jsDate.getMonth()];
+                return jsDate.getDate() + '. ' + months[jsDate.getMonth()];
             },
 
             expandMenu: function(){
