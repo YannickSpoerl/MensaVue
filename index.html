@@ -47,7 +47,7 @@
                     </v-card-title>
                 </v-card>
                 <v-tabs v-if="selectedCanteen" fixed-tabs v-model="selectedDate" mandatory>
-                    <v-tab v-for="date in allMeals" :key="date.date"><v-icon>calendar_today</v-icon>&nbsp;{{ date.date }}</v-tab>
+                    <v-tab v-for="date in allMeals" :key="date.date"><v-icon>calendar_today</v-icon>&nbsp;{{ formatDate(date.date) }}</v-tab>
                 </v-tabs>
                 <v-card>
                     <div class="text-xs-center">
@@ -132,6 +132,12 @@
             ]
         },
         methods: {
+
+            formatDate: function(date){
+                var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                jsDate = new Date(date);
+                return jsDate.getDate() + ' ' + months[jsDate.getMonth()];
+            },
 
             expandMenu: function(){
                 if(this.menuExpanded){
