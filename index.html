@@ -18,12 +18,10 @@
                 <v-list>
                     <div v-if="filters.length!=0">
                         <v-subheader>Filters</v-subheader>
-                        <v-list-tile v-for="(filter, index) in filters">
+                        <v-list-tile v-for="(filter, index) in filters" :key="filters[index]">
                             <v-list-tile-action>
                                 <v-checkbox v-model="selectedFilters[index]" :key="filters[index]" :label="filters[index]"></v-checkbox>
                             </v-list-tile-action>
-                            <v-list-tile-content>
-                            </v-list-tile-content>
                         </v-list-tile>
                     </div>
                 </v-list>
@@ -54,7 +52,7 @@
             </v-container>
             <v-layout row wrap v-if="loaded">
                 <v-flex grow v-if="selectedCanteen">
-                    <v-card>
+                    <v-card ma-3>
                         <v-card-title primary-title>
                             <div>
                                 <div class="headline">{{ getCanteenById(selectedCanteen).name }}</div>
