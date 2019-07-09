@@ -30,12 +30,7 @@
         <v-toolbar class="hidden-xs-and-down" prominent fixed app clipped-left>
             <v-toolbar-side-icon v-on:click="expandMenu()"></v-toolbar-side-icon>
             <v-spacer></v-spacer>
-            <v-badge color="teal">
-                <template v-slot:badge>
-                    <span>beta</span>
-                </template>
-                <v-toolbar-title>mensaVue</v-toolbar-title>
-            </v-badge>
+            <v-toolbar-title>mensaVue</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-autocomplete v-model="selectedCity" :items="cities" label="City" flat class="mx-3" placeholder="Where are you?"
                 prepend-icon="location_city">
@@ -49,12 +44,7 @@
         <v-toolbar extended class="hidden-sm-and-up" fixed app clipped-left>
             <v-toolbar-side-icon v-on:click="expandMenu()"></v-toolbar-side-icon>
             <v-spacer></v-spacer>
-            <v-badge color="teal">
-                <template v-slot:badge>
-                    <span>beta</span>
-                </template>
-                <v-toolbar-title>mensaVueMobile</v-toolbar-title>
-            </v-badge>
+            <v-toolbar-title>mensaVue<sup>mobile</sup></v-toolbar-title>
             <v-spacer></v-spacer>
             <v-autocomplete slot="extension" v-model="selectedCity" :items="cities" label="City" flat class="mx-3" placeholder="Where are you?"
                 prepend-icon="location_city">
