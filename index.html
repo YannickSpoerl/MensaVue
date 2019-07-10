@@ -20,7 +20,7 @@
                         <v-subheader>Filters</v-subheader>
                         <v-list-tile v-for="(filter, index) in filters" :key="filters[index]">
                             <v-list-tile-action>
-                                <v-checkbox v-model="selectedFilters[index]" :key="filters[index]" :label="filters[index]"></v-checkbox>
+                                <v-checkbox color="primary" v-model="selectedFilters[index]" :key="filters[index]" :label="filters[index]"></v-checkbox>
                             </v-list-tile-action>
                         </v-list-tile>
                     </div>
