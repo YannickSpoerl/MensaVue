@@ -71,7 +71,7 @@
                             </div>
                         </v-card-title>
                     </v-card>
-                    <v-tabs dark color="primary" class="ma-3" v-if="selectedCanteen" fixed-tabs v-model="selectedDate" mandatory>
+                    <v-tabs dark background-color="primary" color="primary" class="ma-3" v-if="selectedCanteen" fixed-tabs v-model="selectedDate" mandatory>
                         <v-tab v-for="date in allMeals" :key="date.date">
                             <v-icon>calendar_today</v-icon>&nbsp;{{ formatDate(date.date) }}
                         </v-tab>
