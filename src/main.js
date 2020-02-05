@@ -11,7 +11,8 @@ Vue.config.productionTip = false
 const globalData = new Vue({
   data: {
     canteens: new Map(),
-    cities: []
+    cities: [],
+    restService: undefined
   }
 })
 
@@ -31,6 +32,7 @@ new Vue({
   beforeMount () {
     let self = this
     let restService = new RestService()
+    self.$globalData.restService = restService
     restService.getAllCanteens()
       .then((result) => {
         self.$globalData.canteens = getCanteensMap(result)

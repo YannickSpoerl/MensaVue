@@ -5,7 +5,7 @@
       color="primary">
     <v-spacer></v-spacer>
     <v-toolbar-title
-      class="font-weight-light display-2">
+      class="font-weight-light display-1">
       MensaVue</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-autocomplete
@@ -20,6 +20,7 @@
       label="City"
       placeholder="Enter your city"
       prepend-icon="mdi-home-city"
+      @change="onCityChange"
     ></v-autocomplete>
     <v-spacer></v-spacer>
     <v-select
@@ -32,7 +33,7 @@
       prepend-icon="mdi-silverware-fork-knife"
       no-data-text="Select a city first"
       placeholder="Choose your canteen"
-      @change="maxFourSelects"
+      @change="onCanteenChange"
       label="Canteen">
       <template v-slot:selection="{ item, index }">
         <span v-if="index === 0">
@@ -80,13 +81,22 @@ export default {
 
   },
   methods: {
-    maxFourSelects (value) {
-      if (value.length > 4) {
+    onCanteenChange (value) {
+      if (value.length > 3) {
         value.pop(value.length - 1)
       }
     },
     removeCanteen (index) {
       this.selectedCanteens.splice(index, 1)
+    },
+    onCityChange () {
+      let self = this
+      this.$globalData.canteens.get(this.selectedCity).forEach((canteen) => {
+        self.$globalData.restService.getTodayOpen(canteen.id)
+          .then((open) => {
+            canteen.open = open
+          })
+      })
     }
   }
 }
