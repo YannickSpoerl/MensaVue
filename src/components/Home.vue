@@ -50,14 +50,18 @@
     <v-spacer></v-spacer>
     </v-app-bar>
     <v-row>
-      <v-col cols="2">
-        Filter
+      <v-col
+        cols="2"
+        style="padding:0">
+        <FiltersComponent/>
       </v-col>
-      <v-col cols="10">
+      <v-col
+        cols="10"
+        style="padding-left:0">
         <CanteensComponent
           v-if="selectedCanteens.length > 0"
-          :canteens="selectedCanteens"
           @close="removeCanteen"/>
+        <MealsComponent/>
       </v-col>
     </v-row>
     <FooterComponent style="margin-bottom: 0px"></FooterComponent>
@@ -67,29 +71,38 @@
 <script>
 import FooterComponent from './FooterComponent'
 import CanteensComponent from './CanteensComponent'
+import MealsComponent from './MealsComponent'
+import FiltersComponent from './FiltersComponent'
+
 export default {
   name: 'Home',
-  components: { FooterComponent,
-    CanteensComponent },
+  components: {
+    FooterComponent,
+    CanteensComponent,
+    MealsComponent,
+    FiltersComponent },
   data () {
     return {
       selectedCity: undefined,
-      selectedCanteens: []
+      selectedCanteens: [],
+      allMeals: []
     }
   },
   beforeMount () {
 
   },
   methods: {
-    onCanteenChange (value) {
-      if (value.length > 3) {
-        value.pop(value.length - 1)
+    onCanteenChange (canteens) {
+      if (canteens.length > 3) {
+        canteens.pop(canteens.length - 1)
       }
+      this.$store.commit('selectCanteen', canteens)
     },
     removeCanteen (index) {
-      this.selectedCanteens.splice(index, 1)
+      this.$store.commit('unselectCanteen', index)
     },
-    onCityChange () {
+    onCityChange (city) {
+      this.$store.commit('selectCity', city)
       let self = this
       this.$globalData.canteens.get(this.selectedCity).forEach((canteen) => {
         self.$globalData.restService.getTodayOpen(canteen.id)

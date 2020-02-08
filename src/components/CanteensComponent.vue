@@ -4,7 +4,7 @@
       justify="center">
       <v-col
         cols="4"
-        v-for="(canteen, index) in canteens"
+        v-for="(canteen, index) in $store.state.selectedCanteens"
         :key="canteen.id">
         <v-card
           max-height="135">
@@ -52,7 +52,6 @@
 <script>
 export default {
   name: 'CanteensComponent',
-  props: ['canteens'],
   methods: {
     closeCanteen (canteen) {
       this.$emit('close', canteen)

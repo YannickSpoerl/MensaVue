@@ -3,16 +3,43 @@
 import Vue from 'vue'
 import App from './App'
 import vuetify from '@/plugins/vuetify' // path to vuetify export
-import RestService from '@/Services/RestService'
-import { getCanteensMap } from './Services/FilterService'
+import RestService from '@/services/RestService'
+import { getCanteensMap } from './services/FilterService'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
 
 Vue.config.productionTip = false
+
+const store = new Vuex.Store({
+  state: {
+    selectedCity: undefined,
+    selectedCanteens: []
+  },
+  mutations: {
+    selectCity (state, city) {
+      state.selectedCity = city
+    },
+    selectCanteen (state, canteens) {
+      state.selectedCanteens = canteens
+    },
+    unselectCanteen (state, index) {
+      state.selectedCanteens.splice(index, 1)
+    }
+  },
+  getters: {
+    selectedCanteens (state) {
+      return state.selectedCanteens
+    }
+  }
+})
 
 const globalData = new Vue({
   data: {
     canteens: new Map(),
     cities: [],
-    restService: undefined
+    restService: undefined,
+    meals: new Map()
   }
 })
 
@@ -29,6 +56,7 @@ Vue.use(globalData)
 new Vue({
   vuetify,
   el: '#app',
+  store,
   beforeMount () {
     let self = this
     let restService = new RestService()
