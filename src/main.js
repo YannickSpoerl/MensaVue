@@ -64,7 +64,8 @@ new Vue({
     restService.getAllCanteens()
       .then((result) => {
         self.$globalData.canteens = getCanteensMap(result)
-        self.$globalData.cities = Array.from(self.$globalData.canteens.keys())
+        let citiesArray = Array.from(self.$globalData.canteens.keys())
+        self.$globalData.cities = citiesArray.sort()
       })
   },
   components: { App },
