@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import vuetify from '@/plugins/vuetify' // path to vuetify export
 import RestService from '@/services/RestService'
-import { getCanteensMap } from './services/FilterService'
+import { getCanteensMap, computeFilters } from './services/FilterService'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
@@ -14,7 +14,8 @@ Vue.config.productionTip = false
 const store = new Vuex.Store({
   state: {
     selectedCity: undefined,
-    selectedCanteens: []
+    selectedCanteens: [],
+    availableFilters: []
   },
   mutations: {
     selectCity (state, city) {
@@ -25,11 +26,17 @@ const store = new Vuex.Store({
     },
     unselectCanteen (state, index) {
       state.selectedCanteens.splice(index, 1)
+    },
+    selectMeals (state, meals) {
+      state.availableFilters = computeFilters(meals)
     }
   },
   getters: {
     selectedCanteens (state) {
       return state.selectedCanteens
+    },
+    availableFilters (state) {
+      return state.availableFilters
     }
   }
 })

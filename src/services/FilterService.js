@@ -67,4 +67,16 @@ function getCategorizedMeals (meals) {
   })
 }
 
-export {getCanteensMap, getMealsArray, getCategorizedMeals}
+function computeFilters (mealsArray) {
+  let filters = new Set()
+  mealsArray.forEach((category) => {
+    category.meals.forEach((meal) => {
+      meal.notes.forEach((filter) => {
+        filters.add(filter)
+      })
+    })
+  })
+  return Array.from(filters)
+}
+
+export {getCanteensMap, getMealsArray, getCategorizedMeals, computeFilters}

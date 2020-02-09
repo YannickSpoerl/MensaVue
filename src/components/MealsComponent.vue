@@ -30,13 +30,15 @@
     class="overflow-y-auto"
     dense>
       <div
-        v-for="category in categories"
+        v-for="category in selectedMeals"
         :key="category.category"
         >
         <v-subheader>{{category.category}}</v-subheader>
-        <v-list-item-group>
+        <v-list-item-group
+          v-model="selectedMeal"
+          color="primary">
           <v-list-item
-          @click="selectedMeal=meal"
+            :value="meal"
             v-for="meal in category.meals"
             :key="meal.id">
             <v-list-item-icon>
@@ -114,8 +116,10 @@ export default {
         }
       })
       if (categories.length < 1) {
+        this.$store.commit('selectMeals', this.categories)
         return this.categories
       }
+      this.$store.commit('selectMeals', categories)
       return categories
     }
   }

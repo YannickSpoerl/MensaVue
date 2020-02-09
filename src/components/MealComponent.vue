@@ -14,13 +14,13 @@
       size="85">
       {{icon}}
     </v-icon></v-avatar>
-      {{meal.canteen}}</v-card-title>
+      {{meal.category}}</v-card-title>
       <v-card-title style="word-break: normal" class="headline">{{meal.name}}</v-card-title>
     <v-card-text>
       <v-row
         justify="center"
       >
-        <div class="subtitle-1">{{meal.category}}</div>
+        <div class="subtitle-1">{{meal.canteen}}</div>
       </v-row>
     </v-card-text>
     <div
