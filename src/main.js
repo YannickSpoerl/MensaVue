@@ -15,7 +15,8 @@ const store = new Vuex.Store({
   state: {
     selectedCity: undefined,
     selectedCanteens: [],
-    availableFilters: []
+    availableFilters: [],
+    selectedFilters: []
   },
   mutations: {
     selectCity (state, city) {
@@ -30,6 +31,9 @@ const store = new Vuex.Store({
     selectMeals (state, meals) {
       state.availableFilters = computeFilters(meals)
       state.availableFilters.sort()
+    },
+    changeFilters (state, filters) {
+      state.selectedFilters = filters
     }
   },
   getters: {
@@ -38,6 +42,9 @@ const store = new Vuex.Store({
     },
     availableFilters (state) {
       return state.availableFilters
+    },
+    selectedFilters (state) {
+      return state.selectedFilters
     }
   }
 })

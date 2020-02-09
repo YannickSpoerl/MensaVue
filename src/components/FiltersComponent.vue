@@ -1,8 +1,9 @@
 <template>
   <v-card
     dark
-    style="margin: 5px; margin-left: 15px"
+    style="margin: 5px; margin-left: 15px; max-height: 835px"
     height="835px"
+    class="overflow-y-auto"
     color="primary">
     <v-list
       v-if="$store.state.selectedCanteens.length > 0"
@@ -10,11 +11,20 @@
       two-line
       flat>
       <v-subheader>Filters</v-subheader>
+      <v-row justify="center">
+      <v-btn
+        @click="selectedFilters = []"
+        outlined
+        color="white">
+        Reset all filters
+      </v-btn>
+    </v-row>
       <v-list-item-group
         v-model="selectedFilters"
         multiple>
         <v-list-item
           v-for="filter in availableFilters"
+          :value="filter"
           :key="filter">
           <template
             v-slot:default="{ active, toggle }">
@@ -44,6 +54,11 @@ export default {
   computed: {
     availableFilters () {
       return this.$store.getters.availableFilters
+    }
+  },
+  watch: {
+    selectedFilters () {
+      this.$store.commit('changeFilters', this.selectedFilters)
     }
   }
 }

@@ -32,7 +32,7 @@
           class="overflow-y-auto"
           dense>
           <div
-            v-for="category in selectedMeals"
+            v-for="category in filteredMeals"
             :key="category.category"
             >
             <v-subheader>{{category.category}}</v-subheader>
@@ -105,11 +105,22 @@ export default {
       }
     }
   },
+  watch: {
+    selectedMeals () {
+      this.$store.commit('selectMeals', this.selectedMeals)
+    }
+  },
   computed: {
     categories () {
       return getCategorizedMeals(this.meals)
     },
+    selectedFilters () {
+      return this.$store.getters.selectedFilters
+    },
     selectedMeals () {
+      if (!this.selectedCategories) {
+        return []
+      }
       let self = this
       let categories = []
       this.categories.forEach((category) => {
@@ -118,10 +129,33 @@ export default {
         }
       })
       if (categories.length < 1) {
-        this.$store.commit('selectMeals', this.categories)
         return this.categories
       }
-      this.$store.commit('selectMeals', categories)
+      return categories
+    },
+    filteredMeals () {
+      let self = this
+      let categories = []
+      this.selectedMeals.forEach((category) => {
+        let c = {
+          category: category.category,
+          meals: []
+        }
+        category.meals.forEach((meal) => {
+          let mealIsValid = true
+          self.selectedFilters.forEach((filter) => {
+            if (!meal.notes.includes(filter)) {
+              mealIsValid = false
+            }
+          })
+          if (mealIsValid) {
+            c.meals.push(meal)
+          }
+        })
+        if (c.meals.length > 0) {
+          categories.push(c)
+        }
+      })
       return categories
     }
   }
