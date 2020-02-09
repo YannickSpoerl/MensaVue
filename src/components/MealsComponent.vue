@@ -29,8 +29,7 @@
       <v-card>
         <v-list
           style="max-height: 600px"
-          class="overflow-y-auto"
-          dense>
+          class="overflow-y-auto">
           <div
             v-for="category in filteredMeals"
             :key="category.category"
@@ -64,6 +63,10 @@
         v-if="selectedMeal"
         :meal="selectedMeal"
         :icon="getIcon(selectedMeal.category)"/>
+        <MealComponent
+        v-if="!selectedMeal"
+        :meal="filteredMeals[0].meals[0]"
+        :icon="getIcon(filteredMeals[0].meals[0].category)"/>
     </v-col>
   </v-row>
 </template>
