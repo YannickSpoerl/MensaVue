@@ -103,6 +103,9 @@ export default {
         case 'Ofenfrisch': return this.icons.oven
         default: return this.icons.food
       }
+    },
+    updateFilters () {
+      this.$store.commit('selectMeals', this.selectedMeals)
     }
   },
   watch: {

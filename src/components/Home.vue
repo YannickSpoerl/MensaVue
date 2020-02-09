@@ -63,6 +63,10 @@
         <CanteensComponent
           v-if="selectedCanteens.length > 0"
           @close="removeCanteen"/>
+        <PlaceholderComponent
+          icon="mdi-emoticon-wink-outline"
+          v-if="selectedCanteens.length < 1 || !selectedCity"
+          :message="emptySpaceMessage"/>
         <DatesComponent/>
       </v-col>
     </v-row>
@@ -75,10 +79,12 @@ import FooterComponent from './FooterComponent'
 import CanteensComponent from './CanteensComponent'
 import DatesComponent from './DatesComponent'
 import FiltersComponent from './FiltersComponent'
+import PlaceholderComponent from './PlaceholderComponent'
 
 export default {
   name: 'Home',
   components: {
+    PlaceholderComponent,
     FooterComponent,
     CanteensComponent,
     DatesComponent,
@@ -89,9 +95,6 @@ export default {
       selectedCanteens: [],
       allMeals: []
     }
-  },
-  beforeMount () {
-
   },
   methods: {
     onCanteenChange (canteens) {
@@ -113,6 +116,15 @@ export default {
               canteen.open = open
             })
         })
+      }
+    }
+  },
+  computed: {
+    emptySpaceMessage () {
+      if (!this.selectedCity) {
+        return 'Please select a city'
+      } else if (this.selectedCanteens.length < 1) {
+        return 'Please select one or more canteens'
       }
     }
   }

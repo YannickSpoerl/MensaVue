@@ -4,6 +4,8 @@
       v-if="meals.length > 0"
       fixed-tabs
       background-color="primary"
+              v-model="selectedDate"
+
       dark>
       <v-tab
         v-for="day in meals"
@@ -11,15 +13,10 @@
          <v-icon>mdi-calendar</v-icon>
          &nbsp;{{formatDate(day.date)}}
       </v-tab>
-       <v-tab-item
-        transition="false"
-        reverse-transition="false"
-        v-for="day in meals"
-        :key="day.date">
-        <MealsComponent
-        :meals="day.meals"/>
-       </v-tab-item>
   </v-tabs>
+  <MealsComponent
+    v-if="selectedDate != undefined && meals[selectedDate]"
+    :meals="meals[selectedDate].meals"/>
   </v-content>
 </template>
 
@@ -34,6 +31,7 @@ export default {
   },
   data () {
     return {
+      selectedDate: undefined,
       meals: []
     }
   },

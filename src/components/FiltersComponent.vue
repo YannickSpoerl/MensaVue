@@ -5,12 +5,19 @@
     height="835px"
     class="overflow-y-auto"
     color="primary">
+    <v-subheader>Filters</v-subheader>
+    <v-row
+    v-if="availableFilters.length < 1 || $store.state.selectedCanteens.length < 1"
+    justify="center">
+      <span>
+        No filters available
+      </span>
+    </v-row>
     <v-list
       v-if="$store.state.selectedCanteens.length > 0"
       color="primary"
       two-line
       flat>
-      <v-subheader>Filters</v-subheader>
       <v-row justify="center">
       <v-btn
         @click="selectedFilters = []"
