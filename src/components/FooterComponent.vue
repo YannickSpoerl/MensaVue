@@ -36,6 +36,7 @@ export default {
     return {
       icons: [
         { icon: 'fab fa-vuejs', link: 'https://vuejs.org/' },
+        { icon: 'mdi-vuetify', link: 'https://vuetifyjs.com/en/' },
         { icon: 'fas fa-user', link: 'http://yannickspoerl.me' },
         { icon: 'fab fa-github', link: 'https://github.com/YannickSpoerl' },
         { icon: 'fab fa-spotify', link: 'https://open.spotify.com/playlist/454IGseDQQiMdW5y8DReBL?si=2O_FC2R4SF60hxiXnp2KoA' }
