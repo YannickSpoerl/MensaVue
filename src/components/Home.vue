@@ -61,7 +61,7 @@
         <CanteensComponent
           v-if="selectedCanteens.length > 0"
           @close="removeCanteen"/>
-        <MealsComponent/>
+        <DatesComponent/>
       </v-col>
     </v-row>
     <FooterComponent style="margin-bottom: 0px"></FooterComponent>
@@ -71,7 +71,7 @@
 <script>
 import FooterComponent from './FooterComponent'
 import CanteensComponent from './CanteensComponent'
-import MealsComponent from './MealsComponent'
+import DatesComponent from './DatesComponent'
 import FiltersComponent from './FiltersComponent'
 
 export default {
@@ -79,7 +79,7 @@ export default {
   components: {
     FooterComponent,
     CanteensComponent,
-    MealsComponent,
+    DatesComponent,
     FiltersComponent },
   data () {
     return {
@@ -104,12 +104,14 @@ export default {
     onCityChange (city) {
       this.$store.commit('selectCity', city)
       let self = this
-      this.$globalData.canteens.get(this.selectedCity).forEach((canteen) => {
-        self.$globalData.restService.getTodayOpen(canteen.id)
-          .then((open) => {
-            canteen.open = open
-          })
-      })
+      if (this.selectedCity) {
+        this.$globalData.canteens.get(this.selectedCity).forEach((canteen) => {
+          self.$globalData.restService.getTodayOpen(canteen.id)
+            .then((open) => {
+              canteen.open = open
+            })
+        })
+      }
     }
   }
 }

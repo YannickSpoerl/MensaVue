@@ -1,6 +1,7 @@
 <template>
   <v-content>
     <v-row
+      style="margin-right: 5px"
       justify="center">
       <v-col
         cols="4"

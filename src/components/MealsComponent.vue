@@ -1,65 +1,127 @@
 <template>
-  <v-content>
-     <v-tabs
-      v-if="meals.length > 0"
-      fixed-tabs
-      background-color="primary"
-      dark>
-      <v-tab
-        v-for="day in meals"
-        :key="day.date">
-         <v-icon>mdi-calendar</v-icon>&nbsp;{{formatDate(day.date)}}
-      </v-tab>
-  </v-tabs>
-  </v-content>
+<v-row>
+  <v-col cols=2>
+    <v-card>
+      <v-list
+      style="max-height: 600px"
+    class="overflow-y-auto">
+      <v-subheader>Categories</v-subheader>
+      <v-list-item-group color="primary"
+          v-for="category in categories"
+          :key="category.category"
+          v-model="selectedCategories[category.category]"
+          >
+        <v-list-item>
+          <v-list-item-icon>
+            <v-icon v-text="getIcon(category.category)"></v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title v-text="category.category"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
+    </v-list>
+    </v-card>
+  </v-col>
+  <v-col cols=6>
+    <v-card>
+    <v-list
+    style="max-height: 600px"
+    class="overflow-y-auto"
+    dense>
+      <div
+        v-for="category in categories"
+        :key="category.category"
+        >
+        <v-subheader>{{category.category}}</v-subheader>
+        <v-list-item-group>
+          <v-list-item
+          @click="selectedMeal=meal"
+            v-for="meal in category.meals"
+            :key="meal.id">
+            <v-list-item-icon>
+              <v-icon
+                color="primary">
+                {{getIcon(category.category)}}
+              </v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title
+                v-text="meal.name"/>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+      </div>
+    </v-list>
+  </v-card>
+  </v-col>
+  <v-col cols=4>
+    <MealComponent
+    v-if="selectedMeal"
+    :meal="selectedMeal"
+    :icon="getIcon(selectedMeal.category)"/>
+  </v-col>
+</v-row>
 </template>
 
 <script>
-import {getMealsArray} from '../services/FilterService'
+import {getCategorizedMeals} from '../services/FilterService'
+import MealComponent from './MealComponent'
 
 export default {
   name: 'MealsComponent',
+  props: ['meals'],
+  components: {
+    MealComponent
+  },
+  beforeMount () {
+    this.selectedCategories = {}
+  },
   data () {
     return {
-      meals: []
+      selectedMeal: undefined,
+      selectedCategories: undefined,
+      icons: {
+        pasta: 'mdi-pasta',
+        food: 'mdi-silverware-fork-knife',
+        evening: 'fas fa-moon',
+        oven: 'mdi-toaster-oven',
+        grill: 'mdi-grill'
+      }
     }
   },
   methods: {
-    formatDate (date) {
-      return date.substring(8, 10) + '.' + date.substring(5, 7) + '.' + date.substring(0, 4)
-    },
-    async getMealsByCanteen (canteen) {
-      const meals = await this.$globalData.restService.getMealsByCanteenId(canteen.id)
-      meals.forEach((date) => {
-        date.meals.filter((meal) => {
-          meal.canteen = canteen.name
-        })
-      })
-      this.$globalData.meals.set(canteen.id, meals)
-      return meals
+    getIcon (category) {
+      switch (category) {
+        case 'Pasta': return this.icons.pasta
+        case 'Abendangebot': return this.icons.evening
+        case 'GRILL': return this.icons.grill
+        case 'Ofenfrisch': return this.icons.oven
+        default: return this.icons.food
+      }
     }
   },
   computed: {
-    selectedCanteens () {
-      return this.$store.getters.selectedCanteens
-    }
-  },
-  watch: {
-    async selectedCanteens () {
-      let selectedMeals = []
-      for (let i = 0; i < this.selectedCanteens.length; i++) {
-        if (!this.$globalData.meals.get(this.selectedCanteens[i].id)) {
-          let meals = await this.getMealsByCanteen(this.selectedCanteens[i])
-          selectedMeals.push(meals)
-        } else {
-          selectedMeals.push(this.$globalData.meals.get(this.selectedCanteens[i].id))
+    categories () {
+      return getCategorizedMeals(this.meals)
+    },
+    selectedMeals () {
+      let self = this
+      let categories = []
+      this.categories.forEach((category) => {
+        if (self.selectedCategories[category.category] === 0) {
+          categories.push(category)
         }
+      })
+      if (categories.length < 1) {
+        return this.categories
       }
-      this.meals = getMealsArray(selectedMeals)
+      return categories
     }
   }
 }
 </script>
 
 <style>
+
 </style>

@@ -6,6 +6,15 @@ function getCanteensMap (array) {
     }
     cities.get(canteen.city).push(canteen)
   })
+  cities.forEach((value, index) => {
+    value.sort(function (el1, el2) {
+      if (el1.name < el2.name) {
+        return -1
+      } else {
+        return 1
+      }
+    })
+  })
   return cities
 }
 
@@ -29,7 +38,33 @@ function getMealsArray (mealArray) {
       meals: value
     })
   })
+  meals.sort(function (el1, el2) {
+    let date1 = new Date(el1.date)
+    let date2 = new Date(el2.date)
+    if (date1 < date2) {
+      return -1
+    } else {
+      return 1
+    }
+  })
   return meals
 }
 
-export {getCanteensMap, getMealsArray}
+function getCategorizedMeals (meals) {
+  let categories = new Map()
+  meals.forEach((meal) => {
+    if (!categories.get(meal.category)) {
+      categories.set(meal.category, [])
+    }
+    categories.get(meal.category).push(meal)
+  })
+  let categoryArray = Array.from(categories)
+  return categoryArray.map((element) => {
+    return {
+      category: element[0],
+      meals: element[1]
+    }
+  })
+}
+
+export {getCanteensMap, getMealsArray, getCategorizedMeals}
