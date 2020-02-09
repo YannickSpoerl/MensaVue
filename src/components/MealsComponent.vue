@@ -1,69 +1,71 @@
 <template>
-<v-row>
-  <v-col cols=2>
-    <v-card>
-      <v-list
-      style="max-height: 600px"
-    class="overflow-y-auto">
-      <v-subheader>Categories</v-subheader>
-      <v-list-item-group color="primary"
-          v-for="category in categories"
-          :key="category.category"
-          v-model="selectedCategories[category.category]"
-          >
-        <v-list-item>
-          <v-list-item-icon>
-            <v-icon v-text="getIcon(category.category)"></v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title v-text="category.category"></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-item-group>
-    </v-list>
-    </v-card>
-  </v-col>
-  <v-col cols=6>
-    <v-card>
-    <v-list
-    style="max-height: 600px"
-    class="overflow-y-auto"
-    dense>
-      <div
-        v-for="category in selectedMeals"
-        :key="category.category"
-        >
-        <v-subheader>{{category.category}}</v-subheader>
-        <v-list-item-group
-          v-model="selectedMeal"
-          color="primary">
-          <v-list-item
-            :value="meal"
-            v-for="meal in category.meals"
-            :key="meal.id">
-            <v-list-item-icon>
-              <v-icon
-                color="primary">
-                {{getIcon(category.category)}}
-              </v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title
-                v-text="meal.name"/>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-item-group>
-      </div>
-    </v-list>
-  </v-card>
-  </v-col>
-  <v-col cols=4>
-    <MealComponent
-    v-if="selectedMeal"
-    :meal="selectedMeal"
-    :icon="getIcon(selectedMeal.category)"/>
-  </v-col>
-</v-row>
+  <v-row>
+    <v-col cols=2>
+      <v-card>
+        <v-list
+          style="max-height: 600px"
+          class="overflow-y-auto">
+          <v-subheader>Categories</v-subheader>
+          <v-list-item-group
+            color="primary"
+            v-for="category in categories"
+            :key="category.category"
+            v-model="selectedCategories[category.category]">
+            <v-list-item>
+              <v-list-item-icon>
+                <v-icon
+                  v-text="getIcon(category.category)"/>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title
+                  v-text="category.category"/>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-card>
+    </v-col>
+    <v-col cols=6>
+      <v-card>
+        <v-list
+          style="max-height: 600px"
+          class="overflow-y-auto"
+          dense>
+          <div
+            v-for="category in selectedMeals"
+            :key="category.category"
+            >
+            <v-subheader>{{category.category}}</v-subheader>
+            <v-list-item-group
+              v-model="selectedMeal"
+              color="primary">
+              <v-list-item
+                :value="meal"
+                v-for="meal in category.meals"
+                :key="meal.id">
+                <v-list-item-icon>
+                  <v-icon
+                  color="primary">
+                  {{getIcon(category.category)}}
+                  </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title
+                    v-text="meal.name"/>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+          </div>
+        </v-list>
+      </v-card>
+    </v-col>
+    <v-col cols=4>
+      <MealComponent
+        v-if="selectedMeal"
+        :meal="selectedMeal"
+        :icon="getIcon(selectedMeal.category)"/>
+    </v-col>
+  </v-row>
 </template>
 
 <script>

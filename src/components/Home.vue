@@ -20,8 +20,8 @@
       label="City"
       placeholder="Enter your city"
       prepend-icon="mdi-home-city"
-      @change="onCityChange"
-    ></v-autocomplete>
+      @change="onCityChange">
+    </v-autocomplete>
     <v-spacer></v-spacer>
     <v-select
       style="margin-top: 2%;"
@@ -35,8 +35,10 @@
       placeholder="Choose your canteen"
       @change="onCanteenChange"
       label="Canteen">
-      <template v-slot:selection="{ item, index }">
-        <span v-if="index === 0">
+      <template
+        v-slot:selection="{ item, index }">
+        <span
+          v-if="index === 0">
           {{item.name}}
         </span>
         <span v-if="index === 1">
@@ -64,7 +66,7 @@
         <DatesComponent/>
       </v-col>
     </v-row>
-    <FooterComponent style="margin-bottom: 0px"></FooterComponent>
+    <FooterComponent style="margin-bottom: 0px"/>
   </div>
 </template>
 

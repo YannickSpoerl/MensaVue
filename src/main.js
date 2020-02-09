@@ -29,6 +29,7 @@ const store = new Vuex.Store({
     },
     selectMeals (state, meals) {
       state.availableFilters = computeFilters(meals)
+      state.availableFilters.sort()
     }
   },
   getters: {

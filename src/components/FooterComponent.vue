@@ -20,7 +20,7 @@
           target="_blank">
           <v-icon
             size="24px">
-          {{ icon.icon }}
+            {{icon.icon}}
           </v-icon>
         </v-btn>
         <v-spacer></v-spacer>

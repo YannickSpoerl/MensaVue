@@ -8,14 +8,16 @@
       <v-tab
         v-for="day in meals"
         :key="day.date">
-         <v-icon>mdi-calendar</v-icon>&nbsp;{{formatDate(day.date)}}
+         <v-icon>mdi-calendar</v-icon>
+         &nbsp;{{formatDate(day.date)}}
       </v-tab>
        <v-tab-item
         transition="false"
         reverse-transition="false"
         v-for="day in meals"
         :key="day.date">
-        <MealsComponent :meals="day.meals"/>
+        <MealsComponent
+        :meals="day.meals"/>
        </v-tab-item>
   </v-tabs>
   </v-content>

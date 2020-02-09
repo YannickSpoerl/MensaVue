@@ -16,18 +16,34 @@
                 class="headline"
                 v-text="canteen.name">
               </v-card-title>
-              <v-card-subtitle v-text="canteen.address"></v-card-subtitle>
+              <v-card-subtitle
+                v-text="canteen.address">
+              </v-card-subtitle>
             </div>
             <v-avatar
               size="80"
               tile>
-              <div v-if="canteen.open">
-                <span  style="color: teal">Open</span>
-                <v-icon color="primary">mdi-silverware</v-icon>
+              <div
+                v-if="canteen.open">
+                <span
+                  style="color: teal">
+                  Open
+                </span>
+                <v-icon
+                  color="primary">
+                  mdi-silverware
+                </v-icon>
               </div>
-              <div v-if="!canteen.open">
-                <span style="color: red">Closed</span>
-                <v-icon color="red">mdi-silverware</v-icon>
+              <div
+                v-if="!canteen.open">
+                <span
+                  style="color: red">
+                  Closed
+                </span>
+                <v-icon
+                  color="red">
+                  mdi-silverware
+                </v-icon>
               </div>
             </v-avatar>
           </div>
