@@ -64,7 +64,7 @@
           v-if="selectedCanteens.length > 0"
           @close="removeCanteen"/>
         <PlaceholderComponent
-          icon="mdi-emoticon-wink-outline"
+          icon="mdi-emoticon-happy-outline"
           v-if="selectedCanteens.length < 1 || !selectedCity"
           :message="emptySpaceMessage"/>
         <DatesComponent/>

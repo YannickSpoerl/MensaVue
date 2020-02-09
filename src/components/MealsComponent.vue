@@ -25,15 +25,17 @@
         </v-list>
       </v-card>
     </v-col>
-    <v-col cols=6>
+    <v-col
+      cols=6
+      v-if="filteredMeals.length > 0">
       <v-card>
         <v-list
+          v-if="filteredMeals.length > 0"
           style="max-height: 600px"
           class="overflow-y-auto">
           <div
             v-for="category in filteredMeals"
-            :key="category.category"
-            >
+            :key="category.category">
             <v-subheader>{{category.category}}</v-subheader>
             <v-list-item-group
               v-model="selectedMeal"
@@ -58,7 +60,9 @@
         </v-list>
       </v-card>
     </v-col>
-    <v-col cols=4>
+    <v-col
+      cols=4
+      v-if="filteredMeals.length > 0">
       <MealComponent
         v-if="selectedMeal"
         :meal="selectedMeal"
@@ -68,18 +72,27 @@
         :meal="filteredMeals[0].meals[0]"
         :icon="getIcon(filteredMeals[0].meals[0].category)"/>
     </v-col>
+    <v-col
+      cols=10
+      v-if="filteredMeals.length < 1">
+      <PlaceholderComponent
+        message="No meals match selected filters"
+        icon="mdi-emoticon-sad-outline"/>
+    </v-col>
   </v-row>
 </template>
 
 <script>
 import {getCategorizedMeals} from '../services/FilterService'
 import MealComponent from './MealComponent'
+import PlaceholderComponent from './PlaceholderComponent'
 
 export default {
   name: 'MealsComponent',
   props: ['meals'],
   components: {
-    MealComponent
+    MealComponent,
+    PlaceholderComponent
   },
   beforeMount () {
     this.selectedCategories = {}

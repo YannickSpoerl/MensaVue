@@ -1,7 +1,7 @@
 <template>
   <v-card
     dark
-    style="margin: 5px; margin-left: 15px; max-height: 835px"
+    style="margin: 5px; margin-left: 15px; max-height: 835px; overflow: hidden"
     height="835px"
     class="overflow-y-auto"
     color="primary">

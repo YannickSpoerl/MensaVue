@@ -2,7 +2,8 @@
   <v-content>
     <PlaceHolderComponent
       v-if="meals.length < 1 && $store.state.selectedCanteens.length > 0"
-      message="No meals available for this canteens"/>
+      message="No meals available for this canteens"
+      icon="mdi-emoticon-sad-outline"/>
     <v-tabs
       v-if="meals.length > 0"
       fixed-tabs
