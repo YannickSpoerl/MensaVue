@@ -1,9 +1,6 @@
 <template>
-  <v-row
-  align="center"
-  justify="center">
-    <v-col
-      height="100%">
+  <v-row>
+    <v-col>
       <span
           style="color: teal"
           class="display-3">

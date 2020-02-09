@@ -1,6 +1,9 @@
 <template>
   <v-content>
-     <v-tabs
+    <PlaceHolderComponent
+      v-if="meals.length < 1 && $store.state.selectedCanteens.length > 0"
+      message="No meals available for this canteens"/>
+    <v-tabs
       v-if="meals.length > 0"
       fixed-tabs
       background-color="primary"
@@ -10,24 +13,26 @@
       <v-tab
         v-for="day in meals"
         :key="day.date">
-         <v-icon>mdi-calendar</v-icon>
-         &nbsp;{{formatDate(day.date)}}
+        <v-icon>mdi-calendar</v-icon>
+        &nbsp;{{formatDate(day.date)}}
       </v-tab>
-  </v-tabs>
-  <MealsComponent
-    v-if="selectedDate != undefined && meals[selectedDate]"
-    :meals="meals[selectedDate].meals"/>
+    </v-tabs>
+    <MealsComponent
+      v-if="selectedDate != undefined && meals[selectedDate]"
+      :meals="meals[selectedDate].meals"/>
   </v-content>
 </template>
 
 <script>
 import {getMealsArray} from '../services/FilterService'
 import MealsComponent from './MealsComponent'
+import PlaceHolderComponent from './PlaceholderComponent'
 
 export default {
   name: 'DatesComponent',
   components: {
-    MealsComponent
+    MealsComponent,
+    PlaceHolderComponent
   },
   data () {
     return {
@@ -67,6 +72,7 @@ export default {
         }
       }
       this.meals = getMealsArray(selectedMeals)
+      this.$store.commit('selectMeals', [])
     }
   }
 }

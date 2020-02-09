@@ -10,7 +10,7 @@
     v-if="availableFilters.length < 1 || $store.state.selectedCanteens.length < 1"
     justify="center">
       <span>
-        No filters available
+        {{emptyMessage}}
       </span>
     </v-row>
     <v-list
@@ -61,6 +61,15 @@ export default {
   computed: {
     availableFilters () {
       return this.$store.getters.availableFilters
+    },
+    emptyMessage () {
+      if (!this.$store.state.selectedCity) {
+        return 'No city, no filters'
+      } else if (this.$store.state.selectedCanteens.length < 1) {
+        return 'No canteen, no filters'
+      } else {
+        return 'No filters for selected meals available'
+      }
     }
   },
   watch: {
