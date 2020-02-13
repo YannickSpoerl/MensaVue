@@ -35,7 +35,7 @@ export default {
   data () {
     return {
       icons: [
-        { icon: 'mdi-code', link: 'https://github.com/YannickSpoerl/mensavue' },
+        { icon: 'fas fa-code', link: 'https://github.com/YannickSpoerl/mensavue' },
         { icon: 'fab fa-vuejs', link: 'https://vuejs.org/' },
         { icon: 'mdi-vuetify', link: 'https://vuetifyjs.com/en/' },
         { icon: 'fas fa-user', link: 'http://yannickspoerl.me' },
