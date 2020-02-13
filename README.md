@@ -1,21 +1,59 @@
 # mensavue
 
-> Browse Dresden University canteens
+Browse university canteens & meals!
+Showcase: http://yannickspoerl.me/mensavue/
 
-## Build Setup
+## Getting Started
 
-``` bash
-# install dependencies
-npm install
+Clone Repository
 
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
+```
+git clone https://github.com/YannickSpoerl/mensavue
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+### Prerequisites
+
+- You need Vue-CLI to work on this project.
+
+```
+npm install -g @vue/cli
+```
+
+### Installing
+
+Install node-dependencies.
+
+```
+npm install
+```
+
+## Development
+
+Live preview with hot-reload
+
+```
+npm run dev
+```
+
+## Deployment
+
+Following: https://cli.vuejs.org/guide/deployment.html#platform-guides
+
+1. Modify `build/` and `config/` according to your needs
+2. Modify `deploy.sh` according to your needs
+3. Run ```npm run build```
+4. Run ```./deploy.sh```
+## Built With
+
+* [Vue](https://vuejs.org/) - JavaScript Framework
+* [Vuetify](https://vuetifyjs.com) - Material Design Component Framework
+* [OpenMensa](http://openmensa.org/) - OpenMensa API
+
+## Versioning
+
+- 1.0 - 14.02.20 - Vue-Cli rewrite
+- 0.1 - 13.07.19 - Initial version
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
