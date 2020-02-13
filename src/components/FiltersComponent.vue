@@ -2,7 +2,7 @@
   <v-card
     dark
     style="margin: 5px; margin-left: 15px; max-height: 835px; overflow: hidden"
-    height="835px"
+    height="810px"
     class="overflow-y-auto"
     color="primary">
     <v-subheader>Filters</v-subheader>

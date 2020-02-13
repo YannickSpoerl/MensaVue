@@ -3,7 +3,7 @@
     <v-col cols=2>
       <v-card>
         <v-list
-          style="max-height: 600px"
+          style="max-height: 580px"
           class="overflow-y-auto">
           <v-subheader>Categories</v-subheader>
           <v-list-item-group
