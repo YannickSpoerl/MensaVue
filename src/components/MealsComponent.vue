@@ -31,7 +31,7 @@
       <v-card>
         <v-list
           v-if="filteredMeals.length > 0"
-          style="max-height: 600px"
+          style="max-height: 580px"
           class="overflow-y-auto">
           <div
             v-for="category in filteredMeals"
