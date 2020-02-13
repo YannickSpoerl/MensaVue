@@ -29,7 +29,7 @@ const webpackConfig = merge(baseWebpackConfig, {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      favicon: "./src/assets/favicon.ico"
+      favicon: "favicon.ico"
     }),
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
