@@ -15,7 +15,7 @@ cd dist
 
 git init
 git add -A
-git commit -m '$1'
+git commit -m 'Commit'
 
 # if you are deploying to https://<USERNAME>.github.io/<REPO>
 git push -f git@github.com:yannickspoerl/mensavue.git master:gh-pages
