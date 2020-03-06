@@ -5,11 +5,12 @@
       color="primary">
     <v-spacer></v-spacer>
     <v-toolbar-title
+      v-if="$vuetify.breakpoint.mdAndUp"
       class="font-weight-light display-1">
       MensaVue</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-autocomplete
-      style="margin-top: 2%;"
+      :style="toolbarMargin"
       v-model="selectedCity"
       :items="$globalData.cities"
       color="white"
@@ -23,13 +24,43 @@
       @change="onCityChange">
     </v-autocomplete>
     <v-spacer></v-spacer>
+    <template
+      v-slot:extension
+      v-if="$vuetify.breakpoint.smAndDown && selectedCity != undefined">
+      <v-select
+      :style="toolbarMargin"
+      return-object
+      item-text="name"
+      :items="$globalData.canteens.get(selectedCity)"
+      v-model="selectedCanteens"
+      prepend-icon="mdi-silverware-fork-knife"
+      no-data-text="Select a city first"
+      placeholder="Choose your canteen"
+      @change="onCanteenChange"
+      label="Canteen">
+      <template
+        v-slot:selection="{ item, index }">
+        <span
+          v-if="index === 0">
+          {{item.name}}
+        </span>
+        <span v-if="index === 1">
+          &nbsp;+&nbsp;{{item.name}}
+        </span>
+        <span
+          v-if="index === 2">
+          &nbsp;(+{{ selectedCanteens.length - 2 }} more)</span>
+      </template>
+    </v-select>
+    </template>
     <v-select
+      v-if="$vuetify.breakpoint.mdAndUp"
       style="margin-top: 2%;"
       return-object
       item-text="name"
       :items="$globalData.canteens.get(selectedCity)"
       v-model="selectedCanteens"
-      multiple
+      multiple=""
       prepend-icon="mdi-silverware-fork-knife"
       no-data-text="Select a city first"
       placeholder="Choose your canteen"
@@ -55,13 +86,14 @@
       <v-col
         cols="2"
         style="padding:0">
-        <FiltersComponent/>
+        <FiltersComponent
+          v-if="$vuetify.breakpoint.mdAndUp"/>
       </v-col>
       <v-col
         cols="10"
         style="padding-left:0">
         <CanteensComponent
-          v-if="selectedCanteens.length > 0"
+          v-if="selectedCanteens.length > 0 && !mobile"
           @close="removeCanteen"/>
         <PlaceholderComponent
           icon="mdi-emoticon-happy-outline"
@@ -98,8 +130,10 @@ export default {
   },
   methods: {
     onCanteenChange (canteens) {
-      if (canteens.length > 3) {
+      if (canteens.length > 3 && !this.mobile) {
         canteens.pop(canteens.length - 1)
+      } else if (this.mobile) {
+        canteens = [canteens]
       }
       this.$store.commit('selectCanteen', canteens)
     },
@@ -107,6 +141,10 @@ export default {
       this.$store.commit('unselectCanteen', index)
     },
     onCityChange (city) {
+      if (!city) {
+        this.selectedCanteens = []
+        this.$store.commit('selectCanteen', [])
+      }
       this.$store.commit('selectCity', city)
       let self = this
       if (this.selectedCity) {
@@ -120,12 +158,24 @@ export default {
     }
   },
   computed: {
+    mobile () {
+      if (this.$vuetify.breakpoint.mdAndUp) {
+        return false
+      }
+      return true
+    },
     emptySpaceMessage () {
       if (!this.selectedCity) {
         return 'Please select a city'
       } else if (this.selectedCanteens.length < 1) {
         return 'Please select one or more canteens'
       }
+    },
+    toolbarMargin () {
+      if (this.$vuetify.breakpoint.mdAndUp) {
+        return 'margin-top: 2%;'
+      }
+      return 'margin-top: 9%;'
     }
   }
 }

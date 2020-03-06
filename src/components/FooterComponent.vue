@@ -13,7 +13,7 @@
         <v-btn
           v-for="icon in icons"
           :key="icon.link"
-          class="mx-3"
+          class="mx-2"
           dark
           icon
           v-bind:href="icon.link"
@@ -42,6 +42,15 @@ export default {
         { icon: 'fab fa-github', link: 'https://github.com/YannickSpoerl' },
         { icon: 'fab fa-spotify', link: 'https://open.spotify.com/playlist/454IGseDQQiMdW5y8DReBL?si=2O_FC2R4SF60hxiXnp2KoA' }
       ]
+    }
+  },
+  computed: {
+    iconClass () {
+      if (this.$vuetify.breakpoint.mdAndUp) {
+        return 'mx-3'
+      } else {
+        return 'mx-2'
+      }
     }
   }
 }
