@@ -1,7 +1,7 @@
 # mensavue
 
 Browse university canteens & meals!
-Showcase: http://yannickspoerl.me/mensavue/
+Showcase: https://mensa.yannickspoerl.de
 
 ## Getting Started
 
