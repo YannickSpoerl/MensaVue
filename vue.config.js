@@ -1,3 +1,3 @@
 module.exports = {
-  baseUrl: 'mensa.yannickspoerl.de'
+  publicPath: '/'
 }
