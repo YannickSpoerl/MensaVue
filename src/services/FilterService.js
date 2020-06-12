@@ -6,7 +6,7 @@ function getCanteensMap (array) {
     }
     cities.get(canteen.city).push(canteen)
   })
-  cities.forEach((value, index) => {
+  cities.forEach((value) => {
     value.sort(function (el1, el2) {
       if (el1.name < el2.name) {
         return -1
