@@ -24,6 +24,7 @@
           </v-icon>
         </v-btn>
         <v-spacer></v-spacer>
+        <span>version {{ this.$store.state.appVersion }}</span>
       </v-card-title>
     </v-card>
   </v-footer>

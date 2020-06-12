@@ -6,6 +6,7 @@ import vuetify from '@/plugins/vuetify' // path to vuetify export
 import RestService from '@/services/RestService'
 import { getCanteensMap, computeFilters } from './services/FilterService'
 import Vuex from 'vuex'
+import {version} from '../package.json';
 
 Vue.use(Vuex)
 
@@ -16,9 +17,12 @@ const store = new Vuex.Store({
     selectedCity: undefined,
     selectedCanteens: [],
     availableFilters: [],
-    selectedFilters: []
-  },
+    selectedFilters: [],
+    appVersion: undefined  },
   mutations: {
+    setAppVersion (state, v) {
+      state.appVersion = v
+    },
     selectCity (state, city) {
       state.selectedCity = city
     },
@@ -73,6 +77,7 @@ new Vue({
   el: '#app',
   store,
   beforeMount () {
+    store.commit('setAppVersion', version)
     let self = this
     let restService = new RestService()
     self.$globalData.restService = restService
