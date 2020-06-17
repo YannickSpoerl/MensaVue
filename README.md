@@ -1,5 +1,7 @@
 # mensavue
 
+[![License version](https://img.shields.io/github/license/YannickSpoerl/mensavue)](https://img.shields.io/github/license/YannickSpoerl/mensavue)
+
 Browse university canteens & meals!
 Showcase: https://mensa.yannickspoerl.de
 
