@@ -2,7 +2,7 @@
 
 [![License version](https://img.shields.io/github/license/YannickSpoerl/mensavue)](https://img.shields.io/github/license/YannickSpoerl/mensavue)
 [![App version](https://img.shields.io/github/package-json/v/YannickSpoerl/mensavue)](https://img.shields.io/github/package-json/v/YannickSpoerl/mensavue)
-[![Build](https://img.shields.io/github/workflow/status/YannickSpoerl/mensavue/Node.js CI)](https://img.shields.io/github/workflow/status/YannickSpoerl/mensavue/Node.js CI)
+[![Build](https://img.shields.io/github/workflow/status/YannickSpoerl/mensavue/Node.js%20CI)](https://img.shields.io/github/workflow/status/YannickSpoerl/mensavue/Node.js%20CI)
 
 Browse university canteens & meals!
 Showcase: https://mensa.yannickspoerl.de
